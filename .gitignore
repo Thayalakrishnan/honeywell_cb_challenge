@@ -29,6 +29,7 @@ project.fragment.lock.json
 artifacts/
 MvcMovie/wwwroot/lib/
 MvcMovie/wwwroot/dist/
+MvcMovie/wwwroot/media/*
 
 # Keep your own files
 !wwwroot/css/

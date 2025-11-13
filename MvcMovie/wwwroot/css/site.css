@@ -20,3 +20,35 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+
+
+.upload-container, .catalogue-container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 1rem;
+}
+
+.catalogue-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.catalogue-table th, .catalogue-table td {
+  padding: 0.5rem;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.video-player {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 600px) {
+  video {
+    width: 100%;
+    height: auto;
+  }
+}
