@@ -34,6 +34,7 @@ MvcMovie/wwwroot/dist/
 !wwwroot/css/
 !wwwroot/js/
 !wwwroot/images/
+!wwwroot/media/
 notes.md
 
 # ASP.NET Scaffolding

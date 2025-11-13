@@ -8,6 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MvcMovieContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("MvcMovieContext")));
 
+builder.Services.Configure<MediaOptions>(
+    builder.Configuration.GetSection("MediaOptions"));
+
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
