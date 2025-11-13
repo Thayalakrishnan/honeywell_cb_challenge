@@ -7,14 +7,26 @@ public class HelloWorldController : Controller
 {
     // 
     // GET: /HelloWorld/
-    public string Index()
+    // default
+    public IActionResult Index()
     {
-        return "This is my default action...";
+        return View();
     }
     // 
     // GET: /HelloWorld/Welcome/ 
-    public string Welcome()
+    public IActionResult Welcome(string name, int numTimes = 1)
     {
-        return "This is the Welcome action method...";
+        ViewData["Message"] = "Hello " + name;
+        ViewData["NumTimes"] = numTimes;
+        return View();
+    }
+    // 
+    // Maps both of these, given the URL structure 
+    // configured in Program.cs
+    // GET: /HelloWorld/WelcomeID?name=Rick&id=3
+    // GET: /HelloWorld/WelcomeID/3?name=Rick
+    public string WelcomeID(string name, int ID = 1)
+    {
+        return HtmlEncoder.Default.Encode($"Hello {name}, ID is: {ID}");
     }
 }
