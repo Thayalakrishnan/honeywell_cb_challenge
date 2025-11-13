@@ -4,8 +4,6 @@ using MvcMovie.Data;
 using MvcMovie.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<MvcVideoContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("MvcVideoContext") ?? throw new InvalidOperationException("Connection string 'MvcVideoContext' not found.")));
 
 builder.Services.AddDbContext<MvcMovieContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("MvcMovieContext")));
