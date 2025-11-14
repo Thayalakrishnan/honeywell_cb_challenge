@@ -13,7 +13,7 @@ public class CatViewComponent : ViewComponent
         _mediaService = mediaService;
     }
 
-    public async Task<IViewComponentResult> InvokeAsync()
+    public IViewComponentResult Invoke()
     {
         var files = _mediaService.GetAllMediaFiles();
         return View(files);

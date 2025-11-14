@@ -9,53 +9,25 @@ using MvcMovie.Models;
 
 public class HomeController : Controller
 {
-    private const string TempKey = "ShowUpload";
-    private readonly IMediaService _mediaService;
     
-    [TempData]
-    public bool ShowUploadView { get; set; } = false;
-
-    public HomeController(IMediaService mediaService)
+    public IActionResult Index(bool ShowUploadView = false)
     {
-        _mediaService = mediaService;
-    }
-
-
-    public IActionResult Index()
-    {
-
-        //if (TempData.ContainsKey(TempKey))
-        //{
-        //    // Convert stored temp value to bool
-        //    showUpload = (bool)TempData[TempKey];
-        //}
-
-        //var vm = new HomeViewModel
-        //{
-        //    ShowUploadView = ShowUploadView
-        //};
-
-        //return ViewComponent("Cat", new { });
-        return View();
+        var vm = new HomeViewModel
+        {
+            ShowUploadView = ShowUploadView
+        };
+        return View(vm);
     }
     
     public IActionResult ShowUpload()
     {
-        TempData[TempKey] = true;
-        ShowUploadView = true;
-        return RedirectToAction("Index");
+        var currentState = true;
+        return RedirectToAction("Index", new { ShowUploadView = !currentState });
     }
 
     public IActionResult ShowCatalogue()
     {
-        TempData[TempKey] = false;
-        ShowUploadView = false;
-        return RedirectToAction("Index");
-    }
-    
-    public IActionResult Catalogue()
-    {
-        var files = _mediaService.GetAllMediaFiles();
-        return View(files);
+        var currentState = false;
+        return RedirectToAction("Index", new { ShowUploadView = !currentState });
     }
 }

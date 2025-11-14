@@ -6,16 +6,24 @@
 
 
 @* 
-<partial name="_Upload.cshtml"/>
-<partial name="_Catalogue.cshtml"/> 
+@await Component.InvokeAsync("Cat", new {})
+@await Component.InvokeAsync("Up", new {})
+@await Component.InvokeAsync("CatalogueComponent")
+<vc:cat></vc:cat>
+<vc:up></vc:up>
 *@
 
 
-@await Component.InvokeAsync("Cat", new {})
-
-@await Component.InvokeAsync("Up", new {})
 
 
+@if (Model.ShowUploadView)
+{
+    <vc:up></vc:up>
+}
+else
+{
+    <vc:cat></vc:cat>
+}
 
 @section Scripts {
 <script>

@@ -13,11 +13,9 @@ builder.Services.Configure<VideoDetail>(
 
 builder.Services.AddScoped<IMediaService, MediaService>();
 
-
 // Add services to the container.
 builder.Services.AddControllersWithViews()
     .AddSessionStateTempDataProvider();
-
 
 builder.Services.AddSession();
 
@@ -28,10 +26,10 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     //app.UseExceptionHandler("/Error");
-    app.UseHsts();
+    //app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 

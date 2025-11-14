@@ -13,7 +13,7 @@
             </tr>
         </thead>
         <tbody id="fileTable">
-        @foreach (var file in Model)
+        @foreach (VideoDetail file in Model)
         {
             <tr data-url="@file.Url">
                 <td>@file.FileName</td>
@@ -26,12 +26,13 @@
     <div id="playerContainer" class="video-player"></div>
 </div>
 
-@section Scripts {
 <script>
+console.log("creating table");
 const table = document.getElementById('fileTable');
 const playerContainer = document.getElementById('playerContainer');
 
 table.addEventListener('click', e => {
+    console.log("load video");
     const row = e.target.closest('tr');
     if (!row) return;
 
@@ -43,4 +44,3 @@ table.addEventListener('click', e => {
         </video>`;
 });
 </script>
-}

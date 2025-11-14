@@ -2,5 +2,5 @@ namespace MvcMovie.Models;
 
 public class HomeViewModel
 {
-    public bool ShowUpload { get; set; }
+    public bool ShowUploadView { get; set; }
 }
