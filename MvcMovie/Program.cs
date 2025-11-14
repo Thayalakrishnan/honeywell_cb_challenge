@@ -15,7 +15,12 @@ builder.Services.AddScoped<IMediaService, MediaService>();
 
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddSessionStateTempDataProvider();
+
+
+builder.Services.AddSession();
+
 
 var app = builder.Build();
 
@@ -32,6 +37,9 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.UseSession();
+
+
 app.MapControllers();
 app.MapDefaultControllerRoute();
 app.MapControllerRoute(
@@ -39,7 +47,7 @@ app.MapControllerRoute(
     pattern: "",
     defaults: new
     {
-        Controller = "Catalogue",
+        Controller = "Home",
         Action = "Index"
     }
 );

@@ -1,0 +1,23 @@
+@model HomeViewModel
+
+@{
+    ViewData["Title"] = "Upload Videos";
+}
+
+
+@* 
+<partial name="_Upload.cshtml"/>
+<partial name="_Catalogue.cshtml"/> 
+*@
+
+
+@await Component.InvokeAsync("Cat", new {})
+
+@await Component.InvokeAsync("Up", new {})
+
+
+
+@section Scripts {
+<script>
+</script>
+}

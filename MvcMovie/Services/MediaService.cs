@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Options;
 
 using MvcMovie.Models;
+using MvcMovie.Services.Exceptions;
 
 public class MediaService : IMediaService
 {
@@ -35,6 +36,21 @@ public class MediaService : IMediaService
 
             var safeFileName = Path.GetFileName(file.FileName); // prevents path traversal
             var filePath = Path.Combine(mediaPath, safeFileName);
+            
+            _logger.LogInformation("safeFileName: {safeFileName}", safeFileName);
+            _logger.LogInformation("filePath: {filePath}", filePath);
+
+
+            foreach (var existingfile in Directory.GetFiles(mediaPath))
+            {
+                var info = new FileInfo(existingfile);
+                if (info.Name == safeFileName)
+                {
+                    _logger.LogInformation("SAME FILE NAME {safeFileName}=={info.Name}", safeFileName, info.Name);
+                    //return (false, $"File '{file.FileName}' already exists in catalogue.");
+                    throw new ResourceConflictException($"A video file named '{safeFileName}' already exists.");
+                }
+            }
 
             try
             {
