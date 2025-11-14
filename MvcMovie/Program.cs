@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Http.Features;
 //using MvcMovie.Data;
 using MvcMovie.Models;
 
@@ -19,7 +20,6 @@ builder.Services.AddControllersWithViews()
 
 builder.Services.AddSession();
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -36,7 +36,6 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.UseSession();
-
 
 app.MapControllers();
 app.MapDefaultControllerRoute();

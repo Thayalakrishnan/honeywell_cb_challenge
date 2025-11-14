@@ -22,7 +22,7 @@ public class MediaService : IMediaService
     {
         var mediaPath = Path.Combine(_env.WebRootPath, "media");
 
-        Directory.CreateDirectory(mediaPath); // ensure folder exists
+        Directory.CreateDirectory(mediaPath);
 
         foreach (var file in files)
         {
@@ -33,13 +33,9 @@ public class MediaService : IMediaService
             if (file.Length > _options.MaxUploadSizeMB * 1024 * 1024)
                 return (false, $"File '{file.FileName}' exceeds max size.", 413);
 
-            var safeFileName = Path.GetFileName(file.FileName); // prevents path traversal
+            var safeFileName = Path.GetFileName(file.FileName);
             var filePath = Path.Combine(mediaPath, safeFileName);
             
-            _logger.LogInformation("safeFileName: {safeFileName}", safeFileName);
-            _logger.LogInformation("filePath: {filePath}", filePath);
-
-
             foreach (var existingfile in Directory.GetFiles(mediaPath))
             {
                 var info = new FileInfo(existingfile);

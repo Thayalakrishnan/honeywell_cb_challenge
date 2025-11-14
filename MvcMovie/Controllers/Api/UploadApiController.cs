@@ -20,9 +20,10 @@ public class UploadApiController : ControllerBase
         _logger = logger;
     }
 
+    //[Consumes("multipart/form-data")]
     [HttpPost]
-    [RequestSizeLimit(200 * 1024 * 1024)]
-    [Consumes("multipart/form-data")]
+    [RequestSizeLimit(1000 * 1024 * 1024)]
+    [RequestFormLimits(MultipartBodyLengthLimit = 200 * 1024 * 1024)]
     public async Task<IActionResult> UploadFiles(List<IFormFile> files)
     {
         if (files == null || files.Count == 0)

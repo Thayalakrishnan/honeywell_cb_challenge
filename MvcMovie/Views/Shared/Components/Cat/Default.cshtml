@@ -3,11 +3,14 @@
     ViewData["Title"] = "Video Catalogue";
 }
 
-<div class="cataloguecontainer">
+<div class="vccataloguecontainer">
+    <div class="vccatalogue">
 
     @if (Model != null && Model.Any())
     {
-        <p class="vcinfo cataloguestatus">Select a video from the table to begin playback</p>
+        <div class="vcinfo">
+            <p class="cataloguestatus">Select a video from the table to begin playback</p>
+        </div>
         
         <div id="playerContainer" class="vcvideoplayercontainer">
             <video id="videoPlayer" class="vcvideoplayer" width="640" height="360">
@@ -34,11 +37,13 @@
         </table>
     }
     else {
-        <p class="vcinfo emptycatalog">The catalogue is empty. Use the upload form to add videos</p>
+        <div class="vcinfo">
+            <p class="emptycatalog">The catalogue is empty. Use the upload form to add videos</p>
+        </div>
     }
 
 
-    
+    </div>
 </div>
 
 <script>

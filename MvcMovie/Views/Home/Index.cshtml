@@ -7,10 +7,10 @@
 <nav class="vcnavbar">
     <ul class="vcnavbarlist">
         <li class="nav-item">
-            <a class="nav-link text-dark @(Model.ShowUploadView ? "inactive" : "active")" asp-area="" asp-controller="Home" asp-action="ShowCatalogue">Catalogue</a>
+            <a class="nav-link @(Model.ShowUploadView ? "inactive" : "active")" asp-area="" asp-controller="Home" asp-action="ShowCatalogue">Catalogue</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark @(Model.ShowUploadView ? "active" : "inactive")" asp-area="" asp-controller="Home" asp-action="ShowUpload">Upload</a>
+            <a class="nav-link @(Model.ShowUploadView ? "active" : "inactive")" asp-area="" asp-controller="Home" asp-action="ShowUpload">Upload</a>
         </li>
     </ul>
 </nav>
