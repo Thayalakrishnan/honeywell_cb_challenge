@@ -2,18 +2,24 @@
     ViewData["Title"] = "Upload Videos";
 }
 
-<div class="upload-container">
+<div class="uploadcontainer">
+
+    <div id="uploadStatus" class="status"></div>
+    
     <form id="uploadForm" enctype="multipart/form-data">
+        <p>Choose MP4 fils to upload to the Video Catalogue</p>
         <input type="file" id="files" name="files" accept=".mp4" multiple required />
         <button type="submit">Upload</button>
     </form>
-    <div id="message" class="status"></div>
+    
 </div>
 
 <script>
+
+const uploadStatus = document.getElementById('uploadStatus');
+
 document.getElementById('uploadForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    console.log("uploading");
     const files = document.getElementById('files').files;
     if (!files.length) return;
 
@@ -23,15 +29,13 @@ document.getElementById('uploadForm').addEventListener('submit', async (e) => {
     try {
         const response = await fetch('/api/upload', { method: 'POST', body: formData });
         const result = await response.json();
-
         if (response.ok) {
-            document.getElementById('message').textContent = result.message;
-            //setTimeout(() => window.location.href = '/catalogue', 1000);
+            window.location.href = '/Home/ShowCatalogue';
         } else {
-            document.getElementById('message').textContent = `Error: ${result.message}`;
+            uploadStatus.textContent = `Error: ${result.message}`;
         }
     } catch (err) {
-        document.getElementById('message').textContent = 'Unexpected error uploading files.';
+        uploadStatus.textContent = 'Unexpected error uploading files.';
     }
 });
 </script>

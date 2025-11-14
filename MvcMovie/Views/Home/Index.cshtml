@@ -4,21 +4,29 @@
     ViewData["Title"] = "Upload Videos";
 }
 
+<nav class="vcnavbar">
+    <ul class="vcnavbarlist">
+        <li class="nav-item">
+            <a class="nav-link text-dark @(Model.ShowUploadView ? "inactive" : "active")" asp-area="" asp-controller="Home" asp-action="ShowCatalogue">Catalogue</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark @(Model.ShowUploadView ? "active" : "inactive")" asp-area="" asp-controller="Home" asp-action="ShowUpload">Upload</a>
+        </li>
+    </ul>
+</nav>
 
-@* 
-@await Component.InvokeAsync("Cat", new {})
-@await Component.InvokeAsync("Up", new {})
-*@
+<div class="componentcontainer">
+    @if (Model.ShowUploadView)
+    {
+        <vc:up></vc:up>
+    }
+    else
+    {
+        <vc:cat></vc:cat>
+    }
+</div>
 
 
-@if (Model.ShowUploadView)
-{
-    <vc:up></vc:up>
-}
-else
-{
-    <vc:cat></vc:cat>
-}
 
 @section Scripts {
 <script>
