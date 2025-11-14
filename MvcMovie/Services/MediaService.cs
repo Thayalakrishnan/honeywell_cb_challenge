@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Options;
 
 using MvcMovie.Models;
-using MvcMovie.Services.Exceptions;
 
 public class MediaService : IMediaService
 {
@@ -19,7 +18,7 @@ public class MediaService : IMediaService
         _env = env;
     }
 
-    public async Task<(bool Success, string Message)> SaveFilesAsync(IEnumerable<IFormFile> files)
+    public async Task<(bool Success, string Message, int Status)> SaveFilesAsync(IEnumerable<IFormFile> files)
     {
         var mediaPath = Path.Combine(_env.WebRootPath, "media");
 
@@ -29,10 +28,10 @@ public class MediaService : IMediaService
         {
             var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
             if (!_options.AllowedExtensions.Contains(extension))
-                return (false, $"File '{file.FileName}' has invalid extension.");
+                return (false, $"File '{file.FileName}' has invalid extension.", 415);
 
             if (file.Length > _options.MaxUploadSizeMB * 1024 * 1024)
-                return (false, $"File '{file.FileName}' exceeds max size.");
+                return (false, $"File '{file.FileName}' exceeds max size.", 413);
 
             var safeFileName = Path.GetFileName(file.FileName); // prevents path traversal
             var filePath = Path.Combine(mediaPath, safeFileName);
@@ -47,8 +46,7 @@ public class MediaService : IMediaService
                 if (info.Name == safeFileName)
                 {
                     _logger.LogInformation("SAME FILE NAME {safeFileName}=={info.Name}", safeFileName, info.Name);
-                    //return (false, $"File '{file.FileName}' already exists in catalogue.");
-                    throw new ResourceConflictException($"A video file named '{safeFileName}' already exists.");
+                    return (false, $"File '{safeFileName}' already exists.", 409);
                 }
             }
 
@@ -60,11 +58,11 @@ public class MediaService : IMediaService
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error saving file {FileName}", file.FileName);
-                return (false, $"Error saving '{file.FileName}'.");
+                return (false, $"Error saving '{file.FileName}'.", 500);
             }
         }
 
-        return (true, "All files uploaded successfully.");
+        return (true, "All files uploaded successfully.", 201);
     }
 
     public IEnumerable<VideoDetail> GetAllMediaFiles()

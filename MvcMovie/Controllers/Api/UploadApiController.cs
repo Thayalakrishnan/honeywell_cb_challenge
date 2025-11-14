@@ -21,19 +21,35 @@ public class UploadApiController : ControllerBase
     }
 
     [HttpPost]
-    [RequestSizeLimit(200 * 1024 * 1024)] // 200 MB limit for this API only
+    [RequestSizeLimit(200 * 1024 * 1024)]
     [Consumes("multipart/form-data")]
     public async Task<IActionResult> UploadFiles(List<IFormFile> files)
     {
         if (files == null || files.Count == 0)
             return BadRequest(new { message = "No files received." });
 
-        var (success, message) = await _mediaService.SaveFilesAsync(files);
+        var (success, message, status) = await _mediaService.SaveFilesAsync(files);
 
         if (!success)
         {
             _logger.LogWarning("Upload failed: {Message}", message);
-            return StatusCode(StatusCodes.Status415UnsupportedMediaType, new { message });
+            switch (status)
+            {
+                case 200: // OK
+                    return StatusCode(StatusCodes.Status200OK, new { message });
+                case 201: // Created
+                    return StatusCode(StatusCodes.Status201Created, new { message });
+                case 409: // Conflict
+                    return StatusCode(StatusCodes.Status409Conflict, new { message });
+                case 415:
+                    return StatusCode(StatusCodes.Status415UnsupportedMediaType, new { message });
+                case 413: // Payload Too Large
+                    return StatusCode(StatusCodes.Status413PayloadTooLarge, new { message });
+                case 500: // Internal Server Error
+                    return StatusCode(StatusCodes.Status500InternalServerError, new { message });
+                default:
+                    return StatusCode(StatusCodes.Status500InternalServerError, new { message });
+            }
         }
 
         return Ok(new { message });

@@ -10,8 +10,14 @@ using MvcMovie.Models;
 public class HomeController : Controller
 {
     
-    public IActionResult Index(bool ShowUploadView = false)
+    private const string TempKey = "ShowUploadView";
+
+
+    public IActionResult Index()
     {
+        bool ShowUploadView = TempData.ContainsKey(TempKey) ? Convert.ToBoolean(TempData[TempKey]) : false;
+        TempData.Keep(TempKey);
+        
         var vm = new HomeViewModel
         {
             ShowUploadView = ShowUploadView
@@ -21,13 +27,13 @@ public class HomeController : Controller
     
     public IActionResult ShowUpload()
     {
-        var currentState = true;
-        return RedirectToAction("Index", new { ShowUploadView = !currentState });
+        TempData[TempKey] = true;
+        return RedirectToAction("Index");
     }
 
     public IActionResult ShowCatalogue()
     {
-        var currentState = false;
-        return RedirectToAction("Index", new { ShowUploadView = !currentState });
+        TempData[TempKey] = false;
+        return RedirectToAction("Index");
     }
 }
