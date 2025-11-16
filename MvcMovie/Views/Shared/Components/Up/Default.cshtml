@@ -34,29 +34,54 @@
 </div>
 
 <script>
-
 const videoFilesError = document.getElementById('videoFilesError');
+
 videoFilesError.setAttribute("data-status", "inactive");
+
+function responseParser(status) {
+    switch (status)
+    {
+        case 200:
+            return "Ok"
+        case 201:
+            return "Created"
+        case 409:
+            return "Conflict, File already exists in catalogue."
+        case 415:
+            return "Unsupported file type."
+        case 400:
+            return "Upload size is too big! Less than 200mb please."
+        case 413:
+            return "Upload size is too big! Less than 200mb please."
+        case 500:
+            return "Internal server error."
+        default:
+            return "Undefined."
+    }
+}
+
 
 document.getElementById('uploadForm').addEventListener('submit', async (e) => {
     e.preventDefault();
+    videoFilesError.setAttribute("data-status", "inactive");
     const videoFiles = document.getElementById('videoFiles').files;
-    if (!videoFiles.length) return;
-
+    if (!videoFiles.length) 
+    {
+        return;
+    }
     const formData = new FormData();
-    for (const f of videoFiles) formData.append('files', f);
-
+    for (const f of videoFiles) 
+    {
+        formData.append('files', f);
+    }
     try {
         const response = await fetch('/api/upload', { method: 'POST', body: formData });
         const result = await response.json();
         if (response.ok) {
             window.location.href = '/Home/ShowCatalogue';
         } else {
-            if (response.status===400) {
-                videoFilesError.textContent = `Upload size is too big! Less than 200mb please`;    
-            } else {
-                videoFilesError.textContent = `Error: ${response.status}`;
-            }
+            const message = responseParser(response.status);
+            videoFilesError.textContent = `Error: ${response.status} ${message}`;
             videoFilesError.setAttribute("data-status", "active");
         }
     } catch (err) {

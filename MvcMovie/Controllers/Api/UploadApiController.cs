@@ -20,14 +20,15 @@ public class UploadApiController : ControllerBase
         _logger = logger;
     }
 
-    //[Consumes("multipart/form-data")]
     [HttpPost]
-    [RequestSizeLimit(1000 * 1024 * 1024)]
+    [RequestSizeLimit(200 * 1024 * 1024)]
     [RequestFormLimits(MultipartBodyLengthLimit = 200 * 1024 * 1024)]
     public async Task<IActionResult> UploadFiles(List<IFormFile> files)
     {
         if (files == null || files.Count == 0)
+        {
             return BadRequest(new { message = "No files received." });
+        }
 
         var (success, message, status) = await _mediaService.SaveFilesAsync(files);
 
