@@ -1,0 +1,34 @@
+@model HomeViewModel
+
+@{
+    ViewData["Title"] = "Upload Videos";
+}
+
+<nav class="vcnavbar">
+    <ul class="vcnavbarlist">
+        <li class="nav-item">
+            <a class="nav-link @(Model.ShowUploadView ? "inactive" : "active")" asp-area="" asp-controller="Home" asp-action="ShowCatalogue">Catalogue</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link @(Model.ShowUploadView ? "active" : "inactive")" asp-area="" asp-controller="Home" asp-action="ShowUpload">Upload</a>
+        </li>
+    </ul>
+</nav>
+
+<div class="componentcontainer">
+    @if (Model.ShowUploadView)
+    {
+        <vc:up></vc:up>
+    }
+    else
+    {
+        <vc:cat></vc:cat>
+    }
+</div>
+
+
+
+@section Scripts {
+<script>
+</script>
+}

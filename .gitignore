@@ -27,6 +27,16 @@ bld/
 project.lock.json
 project.fragment.lock.json
 artifacts/
+MvcMovie/wwwroot/lib/
+MvcMovie/wwwroot/dist/
+MvcMovie/wwwroot/media/*
+notes.md
+
+# Keep your own files
+!wwwroot/css/
+!wwwroot/js/
+!wwwroot/images/
+!wwwroot/media/
 
 # ASP.NET Scaffolding
 ScaffoldingReadMe.txt

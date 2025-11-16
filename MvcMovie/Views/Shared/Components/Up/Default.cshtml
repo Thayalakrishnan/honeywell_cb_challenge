@@ -1,0 +1,67 @@
+@{
+    ViewData["Title"] = "Upload Videos";
+}
+
+<div class="vcuploadcontainer">
+    <form class="vcuploadform" id="uploadForm" enctype="multipart/form-data">
+    
+        <div class="vcinfo">
+            <p id="videoFilesError" class="vcuploaderrormessage" role="alert" aria-live="polite"></p>
+        </div>
+        
+        <div class="vcinfo">
+            <p id="videoFilesHelp" class="vcuploadinputhelptext">You may upload one or more MP4 files. Maximum size: 200MB per file.</p>
+        </div>
+        
+        <label for="videoFiles" class="vcuploadinputlabel">
+            Upload MP4 Video Files
+            <input
+                type="file"
+                id="videoFiles"
+                name="videoFiles"
+                accept="video/mp4"
+                multiple
+                required 
+                aria-describedby="videoFilesHelp videoFilesError"
+                class="vcuploadinput"
+            />
+        </label>
+        
+        <button class="vcuploadbutton" type="submit">Upload</button>
+        
+    </form>
+    
+</div>
+
+<script>
+
+const videoFilesError = document.getElementById('videoFilesError');
+videoFilesError.setAttribute("data-status", "inactive");
+
+document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const videoFiles = document.getElementById('videoFiles').files;
+    if (!videoFiles.length) return;
+
+    const formData = new FormData();
+    for (const f of videoFiles) formData.append('files', f);
+
+    try {
+        const response = await fetch('/api/upload', { method: 'POST', body: formData });
+        const result = await response.json();
+        if (response.ok) {
+            window.location.href = '/Home/ShowCatalogue';
+        } else {
+            if (response.status===400) {
+                videoFilesError.textContent = `Upload size is too big! Less than 200mb please`;    
+            } else {
+                videoFilesError.textContent = `Error: ${response.status}`;
+            }
+            videoFilesError.setAttribute("data-status", "active");
+        }
+    } catch (err) {
+        videoFilesError.textContent = 'Unexpected error uploading files.';
+        videoFilesError.setAttribute("data-status", "active");
+    }
+});
+</script>
